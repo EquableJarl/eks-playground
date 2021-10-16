@@ -43,7 +43,7 @@ resource "aws_iam_instance_profile" "worker-node-profile" {
 resource "aws_security_group" "public-sg-worker-node" {
   name        = "workerNodeSG"
   description = "Security group for all eks nodes in the public cluster"
-  vpc_id      = aws_vpc.prod-vpc.id
+  vpc_id      = aws_vpc.eks-playground-vpc.id
 
   egress {
     from_port   = 0

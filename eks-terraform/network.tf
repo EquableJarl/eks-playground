@@ -1,5 +1,5 @@
 resource "aws_internet_gateway" "prod-igw" {
-    vpc_id = aws_vpc.prod-vpc.id
+    vpc_id = aws_vpc.eks-playground-vpc.id
     
     tags = {
       "Name" = "prod-igw"
@@ -22,7 +22,7 @@ resource "aws_nat_gateway" "prod-nat-gw" {
 }
 
 resource "aws_route_table" "pub-crta" {
-    vpc_id = aws_vpc.prod-vpc.id
+    vpc_id = aws_vpc.eks-playground-vpc.id
 
     route {
         cidr_block = "0.0.0.0/0"
@@ -37,7 +37,7 @@ resource "aws_route_table" "pub-crta" {
 
 }
 resource "aws_route_table" "private-crta"{
-    vpc_id = aws_vpc.prod-vpc.id
+    vpc_id = aws_vpc.eks-playground-vpc.id
 
     route {
         cidr_block = "0.0.0.0/0"
