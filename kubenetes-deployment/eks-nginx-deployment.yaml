@@ -28,4 +28,4 @@ spec:
       - name: eks-nginx
         image: equablejarl/eks-nginx
         ports:
-        - containerPort: 8000
+        - containerPort: 80

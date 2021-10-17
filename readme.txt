@@ -14,3 +14,15 @@ Cluster and balance the traffic using kong so I can switch traffic between the p
 - try and create some modules to make this kinda thing easier in the future...
     - VPC 
     
+###############
+
+NOTES
+
+Run the terraform, will build al the terraform infa and output the manual step for the Kubernetes workernode deployment
+run the script to configure the workernodes
+
+Command to build docker
+docker run -it --rm -d -p 8080:80 --name web equablejarl/eks-nginx
+
+command to deploy to eks
+kubectl apply -f eks-nginx-deployment.yaml
