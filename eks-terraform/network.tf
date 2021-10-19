@@ -14,7 +14,7 @@ resource "aws_eip" "nat" {
 
 resource "aws_nat_gateway" "prod-nat-gw" {
     allocation_id = aws_eip.nat.id
-    subnet_id = aws_subnet.subnet-eks-playground-public[0].id
+    subnet_id = values(aws_subnet.subnet-eks-playground-public)[0].id
     
     tags = {
       "Name" = "prod-nat-gw"
@@ -49,14 +49,34 @@ resource "aws_route_table" "private-crta"{
     }
 }
 
+
+
 resource "aws_route_table_association" "crta-public-subnet" {
-    count = length(var.public_subnets)
-    subnet_id = aws_subnet.subnet-eks-playground-public[count.index].id
+    count = length(values(aws_subnet.subnet-eks-playground-public)[*].id)
+    subnet_id = values(aws_subnet.subnet-eks-playground-public)[count.index].id
     route_table_id = aws_route_table.pub-crta.id
 }
 
 resource "aws_route_table_association" "crta-private-subnet" {
-    count = length(var.private_subnets)
-    subnet_id = aws_subnet.subnet-eks-playground-private[count.index].id
-    route_table_id = aws_route_table.private-crta.id
+    count = length(values(aws_subnet.subnet-eks-playground-private)[*].id)
+    subnet_id = values(aws_subnet.subnet-eks-playground-private)[count.index].id
+    route_table_id = aws_route_table.pub-crta.id
 }
+
+
+
+
+# resource "aws_route_table_association" "crta-public-subnet" {
+#     count = length(aws_subnet.subnet-eks-playground-public)
+#     subnet_id = aws_subnet.subnet-eks-playground-public[count.index].id
+#     route_table_id = aws_route_table.pub-crta.id
+# }
+
+# resource "aws_route_table_association" "crta-private-subnet" {
+#     count = length(aws_subnet.subnet-eks-playground-private)
+#     subnet_id = aws_subnet.subnet-eks-playground-private[count.index].id
+#     route_table_id = aws_route_table.private-crta.id
+# }
+
+
+

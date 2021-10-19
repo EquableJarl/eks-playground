@@ -67,7 +67,8 @@ resource "aws_security_group_rule" "eks-cluster-ingress-node-https" {
   type                     = "ingress"
 }
 
-#Create the EKS Cluster
+
+
 
 resource "aws_eks_cluster" "demo" {
   name            = var.cluster-name
@@ -75,7 +76,7 @@ resource "aws_eks_cluster" "demo" {
 
   vpc_config {
     security_group_ids = ["${aws_security_group.sg-public-cluster.id}"]
-    subnet_ids         = aws_subnet.subnet-eks-playground-public[*].id
+    subnet_ids         = values(aws_subnet.subnet-eks-playground-public)[*].id
   }
 
   depends_on = [
