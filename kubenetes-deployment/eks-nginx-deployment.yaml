@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eks-nginx-svc
+  labels:
+    app: eks-nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: eks-nginx
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: eks-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: eks-nginx
+    spec:
+      containers:
+      - name: eks-nginx
+        image: equablejarl/eks-nginx
+        ports:
+        - containerPort: 80

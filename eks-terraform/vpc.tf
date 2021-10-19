@@ -1,4 +1,4 @@
-resource "aws_vpc" "prod-vpc" {
+resource "aws_vpc" "eks-playground-vpc" {
     cidr_block = "10.0.0.0/16"
     enable_dns_support = true #gives you an internal domain name
     enable_dns_hostnames = true #gives you an internal host name
@@ -6,7 +6,7 @@ resource "aws_vpc" "prod-vpc" {
     instance_tenancy = "default"    
     
    tags = {
-      Name = "prod-vpc"
+      Name = "eks-playground-vpc"
       "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
   
@@ -17,7 +17,7 @@ resource "aws_vpc" "prod-vpc" {
 
 resource "aws_subnet" "subnet-eks-playground-public" {
     count = length(var.public_subnets)
-    vpc_id = aws_vpc.prod-vpc.id
+    vpc_id = aws_vpc.eks-playground-vpc.id
     cidr_block = var.public_subnets[count.index]
     map_public_ip_on_launch = true
     availability_zone = var.azs[count.index]
@@ -30,7 +30,7 @@ resource "aws_subnet" "subnet-eks-playground-public" {
 
 resource "aws_subnet" "subnet-eks-playground-private" {
     count = length(var.private_subnets)
-    vpc_id = aws_vpc.prod-vpc.id
+    vpc_id = aws_vpc.eks-playground-vpc.id
     cidr_block = var.private_subnets[count.index]
     map_public_ip_on_launch = false
     availability_zone = var.azs[count.index]
