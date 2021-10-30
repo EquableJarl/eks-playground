@@ -26,3 +26,14 @@ docker run -it --rm -d -p 8080:80 --name web equablejarl/eks-nginx
 
 command to deploy to eks
 kubectl apply -f eks-nginx-deployment.yaml
+
+
+*******
+
+Whats to do on the terraform? 
+
+Fix the naming convention for the subnets.. 
+Why do we only get 2 worker nodes? 
+
+
+

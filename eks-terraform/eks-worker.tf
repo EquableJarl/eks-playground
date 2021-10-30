@@ -136,7 +136,7 @@ resource "aws_autoscaling_group" "asg-public-eks" {
   max_size             = 2
   min_size             = 1
   name                 = "asg public EKS"
-  vpc_zone_identifier  = aws_subnet.subnet-eks-playground-public[*].id
+  vpc_zone_identifier  = values(aws_subnet.subnet-eks-playground-public)[*].id
 
   tag {
     key                 = "Name"

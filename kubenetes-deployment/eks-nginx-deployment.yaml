@@ -1,31 +1,44 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: eqj-web-ns
+  labels:
+    name: eqj-web-ns
+---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: eks-nginx-svc
-  labels:
-    app: eks-nginx
+  name: eqj-lb-svc
+  namespace: eqj-web-ns
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - port: 8000
+  - port: 80
+    targetPort: 80
     protocol: TCP
     name: http
   selector:
-    app: eks-nginx
+    app: eqj-web
 ---
-apiVersion: v1
-kind: ReplicationController
+
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: eks-nginx
+  name: eqj-web-deployment
+  namespace: eqj-web-ns
 spec:
-  replicas: 1
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eqj-web
   template:
     metadata:
       labels:
-        app: eks-nginx
+        app: eqj-web
     spec:
       containers:
-      - name: eks-nginx
+      - name: eqj-nginx
         image: equablejarl/eks-nginx
         ports:
         - containerPort: 80
