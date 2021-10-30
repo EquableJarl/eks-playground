@@ -21,19 +21,19 @@ variable "cluster-name" {
 
 variable "azs" {
     type = list(string)
-    default = [ "eu-west-2a", "eu-west-2b", "eu-west-2c"]
+    default = [ "eu-west-2a", "eu-west-2b"]
   
 }
 
 variable "num_public_clusters" {
   type = number
-  default = 2
+  default = 1
   
 }
 
 variable "num_private_clusters" {
   type = number
-  default = 2
+  default = 0
   
 }
 

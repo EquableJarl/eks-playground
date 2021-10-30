@@ -49,7 +49,7 @@ resource "aws_subnet" "subnet-eks-playground-public" {
     availability_zone = each.value.zone
     
     tags = {
-        Name = "public-subnet ${index(local.pub_subs, each.value) + 1}"
+        Name = "public-subnet ${each.value.index + 1}-${each.value.zone}"
         "kubernetes.io/cluster/${var.cluster-name}" = "shared"
     }
 }
@@ -62,7 +62,7 @@ resource "aws_subnet" "subnet-eks-playground-private" {
     availability_zone = each.value.zone
     
     tags = {
-        Name = "private-subnet ${index(local.pri_subs, each.value) + 1}"
+        Name = "private-subnet ${each.value.index + 1}-${each.value.zone}"
         "kubernetes.io/cluster/${var.cluster-name}" = "shared"
     }
 }

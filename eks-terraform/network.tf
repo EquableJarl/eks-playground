@@ -51,17 +51,29 @@ resource "aws_route_table" "private-crta"{
 
 
 
+# resource "aws_route_table_association" "crta-public-subnet" {
+#     count = length(values(aws_subnet.subnet-eks-playground-public)[*].id)
+#     subnet_id = values(aws_subnet.subnet-eks-playground-public)[count.index].id
+#     route_table_id = aws_route_table.pub-crta.id
+# }
+
 resource "aws_route_table_association" "crta-public-subnet" {
-    count = length(values(aws_subnet.subnet-eks-playground-public)[*].id)
-    subnet_id = values(aws_subnet.subnet-eks-playground-public)[count.index].id
+    for_each = aws_subnet.subnet-eks-playground-public 
+    subnet_id = each.value.id
     route_table_id = aws_route_table.pub-crta.id
 }
 
 resource "aws_route_table_association" "crta-private-subnet" {
-    count = length(values(aws_subnet.subnet-eks-playground-private)[*].id)
-    subnet_id = values(aws_subnet.subnet-eks-playground-private)[count.index].id
-    route_table_id = aws_route_table.pub-crta.id
+    for_each = aws_subnet.subnet-eks-playground-private
+    subnet_id = each.value.id
+    route_table_id = aws_route_table.private-crta.id
 }
+
+# resource "aws_route_table_association" "crta-private-subnet" {
+#     count = length(values(aws_subnet.subnet-eks-playground-private)[*].id)
+#     subnet_id = values(aws_subnet.subnet-eks-playground-private)[count.index].id
+#     route_table_id = aws_route_table.pub-crta.id
+# }
 
 
 
